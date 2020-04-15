@@ -3,8 +3,14 @@ const db = require("./userDb");
 
 const router = express.Router();
 
-router.post("/", validateUser(), (req, res) => {
-    // do your magic!
+router.post("/", validateUser(), (req, res, next) => {
+    db.insert({ name: req.body.name })
+        .then((user) => {
+            res.json(user);
+        })
+        .catch((error) => {
+            next(error);
+        });
 });
 
 router.post("/:id/posts", validatePost(), (req, res) => {
@@ -89,7 +95,7 @@ function validateUser() {
     };
 }
 
-function validatePost(req, res, next) {
+function validatePost() {
     return (req, res, next) => {
         //  Check that the request body exists
         if (req.body) {
