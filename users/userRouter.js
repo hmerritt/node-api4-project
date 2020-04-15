@@ -3,7 +3,7 @@ const db = require("./userDb");
 
 const router = express.Router();
 
-router.post("/", (req, res) => {
+router.post("/", validateUser(), (req, res) => {
     // do your magic!
 });
 
@@ -52,7 +52,7 @@ function validateUserId() {
                 } else {
                     //  User does not exist
                     res.status(400).json({
-                        message: "Invalid user id",
+                        message: "invalid user id",
                     });
                 }
             })
@@ -63,8 +63,24 @@ function validateUserId() {
     };
 }
 
-function validateUser(req, res, next) {
-    // do your magic!
+function validateUser() {
+    return (req, res, next) => {
+        //  Check that the request body exists
+        if (req.body) {
+            //  Check for the name key
+            if (req.body.name) {
+                next();
+            } else {
+                res.status(400).json({
+                    message: "missing required name field",
+                });
+            }
+        } else {
+            res.status(400).json({
+                message: "missing user data",
+            });
+        }
+    };
 }
 
 function validatePost(req, res, next) {
