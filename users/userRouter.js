@@ -29,8 +29,14 @@ router.get("/:id/posts", validateUserId(), (req, res) => {
     // do your magic!
 });
 
-router.delete("/:id", validateUserId(), (req, res) => {
-    // do your magic!
+router.delete("/:id", validateUserId(), (req, res, next) => {
+    db.remove(req.user.id)
+        .then(() => {
+            res.json(req.user);
+        })
+        .catch((error) => {
+            next(error);
+        });
 });
 
 router.put("/:id", validateUserId(), (req, res) => {
