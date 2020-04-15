@@ -47,8 +47,8 @@ function validateUserId() {
                     next();
                 } else {
                     //  User does not exist
-                    res.status(404).json({
-                        message: "User not found",
+                    res.status(400).json({
+                        message: "Invalid user id",
                     });
                 }
             })
