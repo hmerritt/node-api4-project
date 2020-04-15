@@ -17,16 +17,21 @@ router.get("/:id", validatePostId(), (req, res) => {
     res.send(req.post);
 });
 
-router.delete("/:id", validatePostId(), (req, res) => {
-    // do your magic!
+router.delete("/:id", validatePostId(), (req, res, next) => {
+    db.remove(req.post.id)
+        .then(() => {
+            res.json(req.post);
+        })
+        .catch((error) => {
+            next(error);
+        });
 });
 
 router.put("/:id", validatePostId(), (req, res) => {
     // do your magic!
 });
 
-// custom middleware
-
+//  Custom middleware
 function validatePostId(req, res, next) {
     return (req, res, next) => {
         db.getById(req.params.id)
