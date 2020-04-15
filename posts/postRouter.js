@@ -27,9 +27,7 @@ router.delete("/:id", validatePostId(), (req, res, next) => {
         });
 });
 
-router.put("/:id", validatePostId(), (req, res) => {
-    // do your magic!
-});
+router.put("/:id", validatePostId(), (req, res, next) => {});
 
 //  Custom middleware
 function validatePostId(req, res, next) {

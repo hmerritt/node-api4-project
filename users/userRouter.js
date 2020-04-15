@@ -15,6 +15,7 @@ router.post("/", validateUser(), (req, res, next) => {
 
 router.post("/:id/posts", validatePost(), (req, res) => {
     // do your magic!
+    //  Where is the db function for this?
 });
 
 router.get("/", (req, res, next) => {
@@ -51,8 +52,17 @@ router.delete("/:id", validateUserId(), (req, res, next) => {
         });
 });
 
-router.put("/:id", validateUserId(), (req, res) => {
-    // do your magic!
+router.put("/:id", validateUser(), validateUserId(), (req, res, next) => {
+    db.update(req.user.id, { name: req.body.name })
+        .then(() => {
+            res.json({
+                id: req.user.id,
+                name: req.user.name,
+            });
+        })
+        .catch((error) => {
+            next(error);
+        });
 });
 
 //custom middleware
