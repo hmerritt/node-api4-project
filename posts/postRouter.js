@@ -1,9 +1,16 @@
 const express = require("express");
+const db = require("./postDb");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    // do your magic!
+router.get("/", (req, res, next) => {
+    db.get()
+        .then((users) => {
+            res.send(users);
+        })
+        .catch((error) => {
+            next(error);
+        });
 });
 
 router.get("/:id", (req, res) => {

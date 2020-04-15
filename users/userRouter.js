@@ -11,10 +11,14 @@ router.post("/:id/posts", (req, res) => {
     // do your magic!
 });
 
-router.get("/", (req, res) => {
-    db.get().then((users) => {
-        res.send(users);
-    });
+router.get("/", (req, res, next) => {
+    db.get()
+        .then((users) => {
+            res.send(users);
+        })
+        .catch((error) => {
+            next(error);
+        });
 });
 
 router.get("/:id", validateUserId(), (req, res) => {
@@ -54,10 +58,7 @@ function validateUserId() {
             })
             .catch((error) => {
                 //  Server failed when accessing database
-                console.log(error);
-                res.status(500).json({
-                    message: "Could not get user",
-                });
+                next(error);
             });
     };
 }
