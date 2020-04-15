@@ -25,15 +25,15 @@ router.get("/:id", validateUserId(), (req, res) => {
     res.send(req.user);
 });
 
-router.get("/:id/posts", (req, res) => {
+router.get("/:id/posts", validateUserId(), (req, res) => {
     // do your magic!
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateUserId(), (req, res) => {
     // do your magic!
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", validateUserId(), (req, res) => {
     // do your magic!
 });
 
